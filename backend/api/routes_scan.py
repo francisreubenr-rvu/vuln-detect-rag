@@ -2,6 +2,7 @@ import re
 import csv
 import json
 import io
+import ipaddress
 from fastapi import APIRouter, HTTPException, BackgroundTasks, Depends, Query
 from fastapi.responses import StreamingResponse
 from sqlalchemy import func
@@ -39,6 +40,21 @@ def validate_target(target: str) -> str:
             status_code=400,
             detail="Invalid target. Must be a valid domain or IP address",
         )
+        
+    try:
+        ip = ipaddress.ip_address(target)
+        if ip.is_private or ip.is_loopback or ip.is_link_local or str(ip) == "169.254.169.254":
+            raise HTTPException(
+                status_code=400,
+                detail="Scanning internal, private, or localized IP addresses is forbidden",
+            )
+    except ValueError:
+        if target.lower() in ("localhost", "localhost.localdomain"):
+            raise HTTPException(
+                status_code=400,
+                detail="Scanning localhost is forbidden",
+            )
+            
     return target
 
 

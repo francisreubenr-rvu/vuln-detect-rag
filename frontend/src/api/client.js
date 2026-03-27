@@ -21,6 +21,9 @@ api.interceptors.response.use(
   }
 )
 
+// Health
+export const getHealth = () => api.get('/health')
+
 // Scans
 export const startScan = (target, scanners) => api.post('/scans', { target, scanners })
 export const getScan = (id) => api.get(`/scans/${id}`)

@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
-  PieChart, Pie, Cell
+  PieChart, Pie, Cell, Legend
 } from 'recharts'
 import {
   Shield, AlertTriangle, TrendingUp, Activity, ChevronRight
 } from 'lucide-react'
-import { getStats } from '../api/client'
+import { getStats, getHealth } from '../api/client'
 
 const SEVERITY_COLORS = {
   CRITICAL: '#ef4444',
@@ -25,9 +25,10 @@ const statusColors = {
 
 export default function Dashboard() {
   const [stats, setStats] = useState(null)
+  const [health, setHealth] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  
+
   // New scan state
   const [targetUrl, setTargetUrl] = useState('')
   const [isScanning, setIsScanning] = useState(false)
@@ -37,9 +38,19 @@ export default function Dashboard() {
 
   useEffect(() => {
     loadStats()
-    const interval = setInterval(loadStats, 30000)
+    loadHealth()
+    const interval = setInterval(() => { loadStats(); loadHealth() }, 30000)
     return () => clearInterval(interval)
   }, [])
+
+  const loadHealth = async () => {
+    try {
+      const { data } = await getHealth()
+      setHealth(data)
+    } catch (err) {
+      console.error('Failed to load health:', err)
+    }
+  }
 
   const loadStats = async () => {
     try {
@@ -119,7 +130,7 @@ export default function Dashboard() {
             value={targetUrl}
             onChange={(e) => setTargetUrl(e.target.value)}
             placeholder="Enter target URL or IP (e.g., example.com)"
-            className="bg-transparent border-none outline-none text-white text-sm px-2 w-64 placeholder-dark-500"
+            className="bg-transparent border-none outline-none text-white text-sm px-2 w-full md:w-64 placeholder-dark-500"
             disabled={isScanning}
             required
           />
@@ -143,7 +154,7 @@ export default function Dashboard() {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-dark-900 border border-dark-700 rounded-lg p-5">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
@@ -193,7 +204,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Severity Distribution */}
         <div className="bg-dark-900 border border-dark-700 rounded-lg p-5">
           <h3 className="text-sm font-semibold text-white mb-4">Severity Distribution</h3>
@@ -204,10 +215,10 @@ export default function Dashboard() {
                   data={severityData}
                   cx="50%"
                   cy="50%"
-                  innerRadius={50}
+                  innerRadius={55}
                   outerRadius={80}
                   dataKey="value"
-                  label={({ name, value }) => `${name}: ${value}`}
+                  stroke="none"
                 >
                   {severityData.map((entry, index) => (
                     <Cell key={index} fill={entry.color} />
@@ -221,6 +232,7 @@ export default function Dashboard() {
                     color: '#f1f5f9',
                   }}
                 />
+                <Legend verticalAlign="bottom" height={36} wrapperStyle={{ color: '#94a3b8', fontSize: '12px' }}/>
               </PieChart>
             </ResponsiveContainer>
           ) : (
@@ -260,25 +272,31 @@ export default function Dashboard() {
           )}
         </div>
 
-        {/* Evaluation Metrics */}
+        {/* System Health */}
         <div className="bg-dark-900 border border-dark-700 rounded-lg p-5">
           <h3 className="text-sm font-semibold text-white mb-4">System Health</h3>
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <span className="text-sm text-dark-400">Backend API</span>
-              <span className="px-2 py-0.5 text-xs bg-green-500/20 text-green-400 rounded">Online</span>
+              <span className={`px-2 py-0.5 text-xs rounded ${health ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
+                {health ? 'Online' : 'Offline'}
+              </span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-sm text-dark-400">ChromaDB</span>
-              <span className="px-2 py-0.5 text-xs bg-green-500/20 text-green-400 rounded">Ready</span>
+              <span className="text-sm text-dark-400">Nmap Scanner</span>
+              <span className={`px-2 py-0.5 text-xs rounded ${health?.scanners?.nmap ? 'bg-green-500/20 text-green-400' : 'bg-yellow-500/20 text-yellow-400'}`}>
+                {health?.scanners?.nmap ? 'Ready' : 'Mock Mode'}
+              </span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-dark-400">Nuclei Scanner</span>
+              <span className={`px-2 py-0.5 text-xs rounded ${health?.scanners?.nuclei ? 'bg-green-500/20 text-green-400' : 'bg-yellow-500/20 text-yellow-400'}`}>
+                {health?.scanners?.nuclei ? 'Ready' : 'Mock Mode'}
+              </span>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-sm text-dark-400">RAG Engine</span>
-              <span className="px-2 py-0.5 text-xs bg-yellow-500/20 text-yellow-400 rounded">Partial</span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-dark-400">Scanners</span>
-              <span className="px-2 py-0.5 text-xs bg-green-500/20 text-green-400 rounded">Mock Mode</span>
+              <span className="px-2 py-0.5 text-xs bg-yellow-500/20 text-yellow-400 rounded">Local Mode</span>
             </div>
           </div>
         </div>

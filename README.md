@@ -14,17 +14,28 @@ Frontend (React + Tailwind)  →  FastAPI Backend  →  SQLite + ChromaDB
                                     ↓
                         Scanner Adapters (Nmap/Nuclei/OpenVAS/Nessus)
                                     ↓
-                        RAG Engine (LangChain + OpenAI)
+                        RAG Engine (LangChain + OpenAI / Local Fallback)
 ```
+
+## What's New in v1.2
+
+- **Real Scanner Integration**: Nmap and Nuclei now perform actual vulnerability scans against targets. No more mock-only data.
+- **Live Target Scanning**: Enter any domain or IP in the dashboard and get real CVE findings, open ports, and service detection.
+- **Auto-Install Support**: Scanners are detected at startup. Backend `/api/health` reports real-time scanner availability.
+- **Improved CVSS Extraction**: Nmap vulners script output is parsed for per-CVE CVSS scores with multiple fallback strategies.
+- **Dashboard with Real Data**: Stats, charts, and recent scans all reflect actual scan results.
+- **INFO Severity Support**: Open port findings from nmap are now displayed alongside CVE vulnerabilities.
+- **Increased Rate Limits**: API rate limits increased for smoother development and testing.
+- **Bug Fixes**: Fixed abstract class instantiation crash in aggregator, fixed INFO severity schema validation.
 
 ## Features
 
-- **Multi-Scanner Aggregation** — Normalize outputs from Nmap, OpenVAS, Nessus, Nuclei into unified CVE/CVSS schema
+- **Multi-Scanner Aggregation** — Normalize outputs from Nmap, Nuclei, OpenVAS, Nessus into unified CVE/CVSS schema
+- **Real Vulnerability Scanning** — Run actual nmap (`-sV -sC --script vulners`) and nuclei scans from the UI
 - **RAG Chat Assistant** — Ask questions about vulnerabilities, remediation steps, exploit techniques
 - **Attack Path Modeling** — Visualize potential attack chains using graph analysis
-- **Scan Orchestration** — Launch real dynamic scans against URLs/IPs directly from the dashboard unified UI
-- **Live Backend Logs** — Real-time log streaming viewer via the new Settings page
-- **UI Theming** — Toggleable sleek Dark and Light mode glassmorphic interfaces
+- **Scan Orchestration** — Launch scans against domains/IPs from a unified dashboard
+- **Export Results** — Download scan results as JSON or CSV
 - **Evaluation Framework** — Measure RAG quality with Accuracy, F1, BLEU, ROUGE metrics
 
 ## Tech Stack
@@ -34,9 +45,18 @@ Frontend (React + Tailwind)  →  FastAPI Backend  →  SQLite + ChromaDB
 | Frontend | React, Tailwind CSS, Vite, Lucide Icons, Recharts |
 | Backend | FastAPI, SQLAlchemy, Pydantic |
 | Database | SQLite (scans), ChromaDB (vectors) |
-| RAG | LangChain, OpenAI / Sentence-Transformers |
-| Scanners | Nmap, Nuclei, OpenVAS (mock), Nessus (mock) |
+| RAG | LangChain, OpenAI / Local Sentence-Transformers fallback |
+| Scanners | Nmap (real), Nuclei (real), OpenVAS (mock), Nessus (mock) |
 | Graph | NetworkX (attack paths) |
+
+## Prerequisites
+
+- **Python 3.10+**
+- **Node.js 18+**
+- **Nmap** — Install from [nmap.org](https://nmap.org/) or `winget install Insecure.Nmap`
+- **Nuclei** — Download from [projectdiscovery/nuclei](https://github.com/projectdiscovery/nuclei/releases) or `go install -v github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest`
+
+> Without nmap/nuclei installed, the platform falls back to mock data for demonstration purposes.
 
 ## Project Structure
 
@@ -44,8 +64,9 @@ Frontend (React + Tailwind)  →  FastAPI Backend  →  SQLite + ChromaDB
 vuln-detect-rag/
 ├── backend/
 │   ├── main.py              # FastAPI entry point
-│   ├── config.py            # Environment config
+│   ├── config.py            # Environment config (v1.2.0)
 │   ├── requirements.txt     # Python dependencies
+│   ├── .env                 # Scanner paths, DB config
 │   ├── models/
 │   │   ├── schemas.py       # Pydantic data models
 │   │   └── database.py      # SQLite ORM
@@ -56,21 +77,21 @@ vuln-detect-rag/
 │   │   ├── attack_path.py   # Attack chain modeling
 │   │   └── evaluators.py    # F1/BLEU/ROUGE metrics
 │   ├── scanners/
-│   │   ├── base.py          # Abstract scanner
-│   │   ├── nmap_scanner.py
-│   │   ├── nuclei_scanner.py
+│   │   ├── base.py          # Abstract scanner adapter
+│   │   ├── nmap_scanner.py  # Real nmap + vulners integration
+│   │   ├── nuclei_scanner.py# Real nuclei JSON output parser
 │   │   ├── openvas_scanner.py
 │   │   └── nessus_scanner.py
 │   ├── api/
 │   │   ├── routes_scan.py   # Scan endpoints
 │   │   ├── routes_rag.py    # RAG chat endpoints
 │   │   └── routes_cve.py    # CVE lookup endpoints
-│   └── data/                # Sample CVE/NVD data
+│   └── data/                # SQLite DB, ChromaDB, sample CVE data
 ├── frontend/
 │   ├── src/
-│   │   ├── pages/           # Dashboard, ScanConsole, RAGAssistant
-│   │   ├── components/      # Reusable UI components
-│   │   └── api/client.js    # API wrapper
+│   │   ├── pages/           # Dashboard, ScanConsole, RAGAssistant, CVEBrowse
+│   │   ├── components/      # ScanForm, ScanResults, VulnerabilityCard, etc.
+│   │   └── api/client.js    # Axios API wrapper
 │   ├── package.json
 │   └── vite.config.js
 ├── scripts/
@@ -81,38 +102,60 @@ vuln-detect-rag/
 
 ## Quickstart
 
-> Note: Please review the `requirements.txt` file in the root directory for a full list of system requirements, essential pre-project download commands, and libraries.
+### 1. Install Backend Dependencies
 
-### 1. Seed CVE Data (one-time)
+```bash
+cd backend
+python -m venv venv
+# Windows: .\venv\Scripts\activate
+# Linux/Mac: source venv/bin/activate
+pip install -r requirements.txt
+```
+
+### 2. Configure Scanner Paths
+
+Edit `backend/.env` to set full paths to nmap and nuclei:
+
+```env
+NMAP_PATH=C:\Program Files (x86)\Nmap\nmap.exe
+NUCLEI_PATH=C:\tools\nuclei\nuclei.exe
+```
+
+### 3. Seed CVE Data (one-time)
 
 ```bash
 cd scripts
 python seed_cve_data.py
 ```
 
-### 2. Start Backend
+### 4. Start Backend
 
 ```bash
 cd backend
-python -m venv venv
-# On Windows: .\venv\Scripts\activate
-# On Linux/Mac: source venv/bin/activate
-pip install -r requirements.txt
 python main.py
 ```
 
 Backend runs at `http://localhost:8000`
 
-### 3. Start Frontend
+### 5. Start Frontend
 
 ```bash
 cd frontend
+npm install   # first time only
 npm run dev
 ```
 
 Frontend runs at `http://localhost:5173`
 
-### 4. Run Evaluation
+### 6. Run a Scan
+
+1. Open `http://localhost:5173` in your browser
+2. Go to **Scan Console**
+3. Enter a target (e.g., `scanme.nmap.org` or `example.com`)
+4. Select scanners (Nmap, Nuclei) and click **Start Scan**
+5. Results appear in real-time as the scan progresses
+
+### 7. Run Evaluation
 
 ```bash
 cd scripts
@@ -133,31 +176,26 @@ python run_eval.py
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
+| GET | `/api/health` | Health check + scanner availability |
 | POST | `/api/scans` | Start a new scan |
 | GET | `/api/scans/{id}` | Get scan status |
 | GET | `/api/scans/{id}/results` | Get scan results |
 | GET | `/api/scans/{id}/attack-paths` | Get attack paths |
+| GET | `/api/scans/{id}/export?format=json\|csv` | Export results |
+| DELETE | `/api/scans/{id}` | Delete a scan |
+| GET | `/api/stats` | Dashboard statistics |
 | POST | `/api/rag/chat` | Chat with RAG assistant |
 | GET | `/api/cve/{cve_id}` | Lookup CVE details |
-| GET | `/api/stats` | Dashboard statistics |
+| POST | `/api/rag/index` | Re-index CVE data into ChromaDB |
 
-## Status: COMPLETE
+## Deliverables
 
 All 4 deliverables implemented:
 
 1. **Aggregator Service** — `backend/services/aggregator.py` normalizes scanner outputs to CVE/CVSS schema
 2. **RAG Assistant** — `backend/services/rag_engine.py` + Chat UI with LangChain + ChromaDB
-3. **Scan Orchestration UI** — React dashboard with scan launch, results, attack path visualization
+3. **Scan Orchestration UI** — React dashboard with real scan launch, live results, attack path visualization
 4. **Evaluation** — `scripts/run_eval.py` computes Accuracy, F1, BLEU, ROUGE metrics
-
-### Key Files
-
-| Deliverable | Files |
-|-------------|-------|
-| Aggregator | `backend/services/aggregator.py`, `backend/scanners/` |
-| RAG Assistant | `backend/services/rag_engine.py`, `frontend/src/pages/RAGAssistant.jsx` |
-| Scan UI | `frontend/src/pages/ScanConsole.jsx`, `frontend/src/pages/Dashboard.jsx` |
-| Evaluation | `backend/services/evaluators.py`, `scripts/run_eval.py` |
 
 ## License
 

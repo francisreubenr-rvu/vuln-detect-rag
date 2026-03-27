@@ -131,11 +131,45 @@ class NmapScanner(ScannerAdapter):
         return vulns
 
     def _extract_cvss_from_script(self, script, cve_id: str) -> float:
+        """Extract CVSS score for a specific CVE from vulners script output."""
         try:
+            # Method 1: Look for table elements with key matching the CVE and extract CVSS
             for table in script.findall(".//table"):
-                for elem in table.findall(".//elem"):
-                    if elem.get("key") == "cvss" and elem.text:
-                        return float(elem.text)
+                table_key = table.get("key", "")
+                if cve_id.upper() in table_key.upper():
+                    for elem in table.findall(".//elem"):
+                        if elem.get("key") == "cvss" and elem.text:
+                            return float(elem.text)
+                        # Also try "cvss-score" key
+                        if elem.get("key") in ("cvss-score", "score") and elem.text:
+                            try:
+                                return float(elem.text)
+                            except ValueError:
+                                pass
+
+            # Method 2: Parse CVSS from raw text output using regex
+            import re
+
+            output = script.get("output", "")
+            # Pattern: CVE-XXXX-XXXX ... X.X (CVSS score often appears after CVE)
+            pattern = rf"{re.escape(cve_id)}\s*.*?(\d+\.\d+)"
+            match = re.search(pattern, output, re.IGNORECASE | re.DOTALL)
+            if match:
+                score = float(match.group(1))
+                if 0.0 <= score <= 10.0:
+                    return score
+
+            # Method 3: Look for any CVSS value near the CVE in the output
+            lines = output.split("\n")
+            for i, line in enumerate(lines):
+                if cve_id.upper() in line.upper():
+                    # Check nearby lines for a CVSS score
+                    context = "\n".join(lines[max(0, i - 2) : min(len(lines), i + 3)])
+                    cvss_match = re.search(r"(\d+\.\d+)", context)
+                    if cvss_match:
+                        score = float(cvss_match.group(1))
+                        if 0.0 <= score <= 10.0:
+                            return score
         except (ValueError, TypeError):
             pass
         return 0.0

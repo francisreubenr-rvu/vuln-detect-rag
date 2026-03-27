@@ -3,13 +3,14 @@ import { AlertTriangle, Shield, Download, Filter } from 'lucide-react'
 import { exportScan } from '../api/client'
 import VulnerabilityCard from './VulnerabilityCard'
 
-const SEVERITY_OPTIONS = ['ALL', 'CRITICAL', 'HIGH', 'MEDIUM', 'LOW']
+const SEVERITY_OPTIONS = ['ALL', 'CRITICAL', 'HIGH', 'MEDIUM', 'LOW', 'INFO']
 
 const severityColors = {
   CRITICAL: 'text-red-400',
   HIGH: 'text-orange-400',
   MEDIUM: 'text-yellow-400',
   LOW: 'text-blue-400',
+  INFO: 'text-gray-400',
 }
 
 export default function ScanResults({ scan, vulnerabilities }) {

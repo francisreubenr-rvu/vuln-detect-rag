@@ -16,10 +16,7 @@ from api.routes_cve import router as cve_router
 logging.basicConfig(
     level=logging.DEBUG if settings.DEBUG else logging.INFO,
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
-    handlers=[
-        logging.FileHandler("backend.log"),
-        logging.StreamHandler()
-    ]
+    handlers=[logging.FileHandler("backend.log"), logging.StreamHandler()],
 )
 logger = logging.getLogger("vulndetect")
 
@@ -27,10 +24,10 @@ logger = logging.getLogger("vulndetect")
 # Simple in-memory rate limiter
 _rate_store: dict[str, list[float]] = defaultdict(list)
 RATE_LIMITS = {
-    "/api/scans": (10, 60),  # 10 scan requests per 60 seconds
-    "/api/rag/chat": (30, 60),  # 30 RAG chats per 60 seconds
+    "/api/scans": (30, 60),  # 30 scan requests per 60 seconds
+    "/api/rag/chat": (60, 60),  # 60 RAG chats per 60 seconds
 }
-DEFAULT_RATE_LIMIT = (60, 60)  # 60 requests per 60 seconds for everything else
+DEFAULT_RATE_LIMIT = (200, 60)  # 200 requests per 60 seconds for everything else
 
 
 @asynccontextmanager
@@ -67,7 +64,12 @@ app.add_middleware(
 @app.middleware("http")
 async def rate_limit_middleware(request: Request, call_next):
     """Simple per-IP rate limiting."""
-    client_ip = request.client.host if request.client else "unknown"
+    forwarded_for = request.headers.get("x-forwarded-for")
+    if forwarded_for:
+        client_ip = forwarded_for.split(",")[0].strip()
+    else:
+        client_ip = request.client.host if request.client else "unknown"
+
     path = request.url.path
     now = time.time()
 
@@ -150,7 +152,22 @@ async def root():
 
 @app.get("/api/health")
 async def health():
-    return {"status": "healthy"}
+    from scanners.nmap_scanner import NmapScanner
+    from scanners.nuclei_scanner import NucleiScanner
+    from scanners.openvas_scanner import OpenVASScanner
+    from scanners.nessus_scanner import NessusScanner
+
+    scanners = {
+        "nmap": NmapScanner().is_available(),
+        "nuclei": NucleiScanner().is_available(),
+        "openvas": OpenVASScanner().is_available(),
+        "nessus": NessusScanner().is_available(),
+    }
+    return {
+        "status": "healthy",
+        "version": settings.APP_VERSION,
+        "scanners": scanners,
+    }
 
 
 @app.get("/api/logs")

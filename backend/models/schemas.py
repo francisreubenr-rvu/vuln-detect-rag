@@ -9,7 +9,7 @@ from typing import Literal, Optional
 class VulnerabilityBase(BaseModel):
     cve_id: Optional[str] = None
     cvss_score: float = 0.0
-    severity: Literal["CRITICAL", "HIGH", "MEDIUM", "LOW"] = "LOW"
+    severity: Literal["CRITICAL", "HIGH", "MEDIUM", "LOW", "INFO"] = "LOW"
     description: str = ""
     affected_host: str = ""
     affected_port: Optional[int] = None

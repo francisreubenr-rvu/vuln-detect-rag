@@ -66,10 +66,16 @@ class AggregatorService:
 
         return db_vulns
 
-    def _cvss_to_severity(self, score: float) -> str:
-        from scanners.base import ScannerAdapter
-
-        return ScannerAdapter.parse_severity(ScannerAdapter(), score)
+    @staticmethod
+    def _cvss_to_severity(score: float) -> str:
+        if score >= 9.0:
+            return "CRITICAL"
+        elif score >= 7.0:
+            return "HIGH"
+        elif score >= 4.0:
+            return "MEDIUM"
+        else:
+            return "LOW"
 
     def parse_severity(self, score: float) -> str:
         return self._cvss_to_severity(score)

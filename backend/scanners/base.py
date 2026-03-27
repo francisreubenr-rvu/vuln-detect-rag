@@ -6,6 +6,7 @@ from dataclasses import dataclass, field
 @dataclass
 class ScanVulnerability:
     """Normalized vulnerability found by any scanner."""
+
     cve_id: str | None = None
     cvss_score: float = 0.0
     severity: str = "LOW"
@@ -34,7 +35,8 @@ class ScannerAdapter(ABC):
         """Check if the scanner binary is available on the system."""
         return True
 
-    def parse_severity(self, score: float) -> str:
+    @staticmethod
+    def parse_severity(score: float) -> str:
         """Convert a CVSS score to severity string."""
         if score >= 9.0:
             return "CRITICAL"
@@ -45,6 +47,7 @@ class ScannerAdapter(ABC):
         else:
             return "LOW"
 
-    def extract_cves(self, text: str) -> list[str]:
+    @staticmethod
+    def extract_cves(text: str) -> list[str]:
         """Extract CVE IDs from text."""
         return re.findall(r"CVE-\d{4}-\d{4,}", text, re.IGNORECASE)

@@ -4,7 +4,7 @@ from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
     APP_NAME: str = "VulnDetectRAG"
-    APP_VERSION: str = "1.0.0"
+    APP_VERSION: str = "1.2.0"
     DEBUG: bool = True
 
     # Database
