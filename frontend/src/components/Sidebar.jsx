@@ -54,7 +54,7 @@ export default function Sidebar({ theme, onToggleTheme }) {
         </button>
         <div className="flex items-center gap-2 text-xs text-dark-500">
           <Activity className="w-3 h-3" />
-          <span>v1.2.0</span>
+          <span>v1.3.0</span>
         </div>
       </div>
     </aside>

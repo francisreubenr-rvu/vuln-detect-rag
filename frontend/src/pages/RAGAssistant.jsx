@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Bot, RefreshCw, Database, MessageSquare, Trash2 } from 'lucide-react'
-import { chatRAG, getChatHistory, listSessions, deleteSession } from '../api/client'
+import { chatRAG, getChatHistory, listSessions, deleteSession, getCVEStats } from '../api/client'
 import ChatPanel from '../components/ChatPanel'
 
 export default function RAGAssistant() {
@@ -8,10 +8,22 @@ export default function RAGAssistant() {
   const [loading, setLoading] = useState(false)
   const [sessionId, setSessionId] = useState(`session_${Date.now()}`)
   const [sessions, setSessions] = useState([])
+  const [cveCount, setCveCount] = useState(0)
 
   useEffect(() => {
     loadSessions()
+    loadCVECount()
   }, [])
+
+  const loadCVECount = async () => {
+    try {
+      const { data } = await getCVEStats()
+      const total = Object.values(data).reduce((sum, count) => sum + count, 0)
+      setCveCount(total)
+    } catch (err) {
+      console.error(err)
+    }
+  }
 
   const loadSessions = async () => {
     try {
@@ -142,7 +154,7 @@ export default function RAGAssistant() {
       <div className="mt-3 flex items-center gap-4 text-xs text-dark-500">
         <div className="flex items-center gap-1">
           <Database className="w-3 h-3" />
-          <span>Knowledge base: 50+ CVEs indexed</span>
+          <span>Knowledge base: {cveCount} CVEs indexed</span>
         </div>
         <div className="flex items-center gap-1">
           <Bot className="w-3 h-3" />

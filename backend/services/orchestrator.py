@@ -66,8 +66,9 @@ class OrchestratorService:
             severity_counts = {"CRITICAL": 0, "HIGH": 0, "MEDIUM": 0, "LOW": 0}
             total_cvss = 0.0
             for v in db_vulns:
-                severity_counts[v.severity] = severity_counts.get(v.severity, 0) + 1
-                total_cvss += (v.cvss_score or 0.0)
+                if v.severity in severity_counts:
+                    severity_counts[v.severity] += 1
+                total_cvss += v.cvss_score or 0.0
 
             avg_cvss = round(total_cvss / len(db_vulns), 2) if db_vulns else 0.0
 

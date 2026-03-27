@@ -33,11 +33,11 @@ export default function MetricsPanel({ metrics }) {
         {metricItems.map(({ label, value, color }) => (
           <div key={label} className="bg-dark-900 border border-dark-700 rounded-lg p-4">
             <div className="text-xs text-dark-400 uppercase font-semibold mb-2">{label}</div>
-            <div className="text-3xl font-bold text-white">{(value * 100).toFixed(1)}%</div>
+            <div className="text-3xl font-bold text-white">{((value || 0) * 100).toFixed(1)}%</div>
             <div className="mt-2 h-2 bg-dark-700 rounded-full overflow-hidden">
               <div
                 className={`h-full rounded-full ${colorMap[color]}`}
-                style={{ width: `${value * 100}%` }}
+                style={{ width: `${(value || 0) * 100}%` }}
               />
             </div>
           </div>

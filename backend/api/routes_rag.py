@@ -105,7 +105,7 @@ async def index_cves():
 
 
 def _store_message(
-    db: Session, session_id: str, role: str, content: str, sources: list = None
+    db: Session, session_id: str, role: str, content: str, sources: list | None = None
 ):
     msg = ChatMessageDB(
         session_id=session_id,

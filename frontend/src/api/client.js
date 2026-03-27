@@ -44,6 +44,7 @@ export const deleteSession = (sessionId) => api.delete(`/rag/sessions/${sessionI
 // CVE
 export const getCVE = (cveId) => api.get(`/cve/${cveId}`)
 export const searchCVEs = (query, severity, exploitOnly) => api.get('/cve', { params: { q: query, severity, exploit_only: exploitOnly } })
+export const getCVEStats = () => api.get('/cve/stats/severity')
 
 // Favorites
 export const getFavorites = () => api.get('/favorites')

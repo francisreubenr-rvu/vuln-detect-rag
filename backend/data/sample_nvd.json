@@ -220,16 +220,6 @@
     "source": "NVD"
   },
   {
-    "cve_id": "CVE-2023-20198",
-    "cvss_score": 10.0,
-    "severity": "CRITICAL",
-    "description": "A privilege escalation vulnerability in the web UI of Cisco IOS XE software that could allow an unauthenticated, remote attacker to create an account on an affected device with privilege level 15 access.",
-    "solution": "Disable the HTTP server feature on internet-facing systems. Upgrade to fixed Cisco IOS XE versions.",
-    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2023-20198"],
-    "exploit_available": true,
-    "source": "NVD"
-  },
-  {
     "cve_id": "CVE-2023-42793",
     "cvss_score": 9.8,
     "severity": "CRITICAL",

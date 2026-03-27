@@ -21,7 +21,7 @@ class RAGEngine:
     def _get_embeddings(self):
         if self._embeddings is None:
             if settings.USE_LOCAL_EMBEDDINGS or not settings.OPENAI_API_KEY:
-                from langchain_community.embeddings import HuggingFaceEmbeddings
+                from langchain_huggingface import HuggingFaceEmbeddings
 
                 self._embeddings = HuggingFaceEmbeddings(
                     model_name=settings.LOCAL_EMBEDDING_MODEL
@@ -104,11 +104,13 @@ class RAGEngine:
         sources = []
         for doc, meta, dist in zip(documents, metadatas, distances):
             context_parts.append(doc)
-            sources.append({
-                "cve_id": meta.get("cve_id"),
-                "content": doc[:200],
-                "score": round(1 - dist, 4),
-            })
+            sources.append(
+                {
+                    "cve_id": meta.get("cve_id"),
+                    "content": doc[:200],
+                    "score": round(1 - dist, 4),
+                }
+            )
 
         context = "\n\n".join(context_parts)
 
@@ -123,7 +125,6 @@ class RAGEngine:
             "answer": answer,
             "sources": sources,
         }
-
 
     def _generate_with_llm(self, question: str, context: str) -> str:
         """Generate answer using OpenAI LLM."""

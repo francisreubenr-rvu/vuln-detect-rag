@@ -1,6 +1,6 @@
 # Centralized Vulnerability Detection & Intelligent Query (RAG)
 
-![Version](https://img.shields.io/badge/version-v1.2-blue.svg)
+![Version](https://img.shields.io/badge/version-v1.3-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)
 ![Node](https://img.shields.io/badge/node-18.x-lightgrey.svg)
@@ -16,6 +16,17 @@ Frontend (React + Tailwind)  →  FastAPI Backend  →  SQLite + ChromaDB
                                     ↓
                         RAG Engine (LangChain + OpenAI / Local Fallback)
 ```
+
+## What's New in v1.3
+
+- **Bug Fixes & Stability**: Fixed multiple runtime errors and improved code quality across backend and frontend
+- **Updated Dependencies**: Added `langchain-core` and `langchain-huggingface` to requirements for proper RAG pipeline support
+- **Deprecated Import Fix**: Migrated from deprecated `langchain_community.embeddings` to `langchain_huggingface` for HuggingFace embeddings
+- **Frontend NaN Fix**: Fixed MetricsPanel component showing "NaN%" when evaluation metrics are undefined
+- **Dynamic CVE Count**: RAG Assistant footer now shows actual indexed CVE count instead of hardcoded placeholder
+- **Clean Sample Data**: Removed duplicate CVE-2023-20198 entry from sample NVD dataset
+- **Type Safety**: Improved type annotations in API routes for better code clarity
+- **Severity Counting**: Optimized severity count tracking in scan orchestrator to properly handle INFO severity
 
 ## What's New in v1.2
 
@@ -64,7 +75,7 @@ Frontend (React + Tailwind)  →  FastAPI Backend  →  SQLite + ChromaDB
 vuln-detect-rag/
 ├── backend/
 │   ├── main.py              # FastAPI entry point
-│   ├── config.py            # Environment config (v1.2.0)
+│   ├── config.py            # Environment config (v1.3.0)
 │   ├── requirements.txt     # Python dependencies
 │   ├── .env                 # Scanner paths, DB config
 │   ├── models/
@@ -186,6 +197,7 @@ python run_eval.py
 | GET | `/api/stats` | Dashboard statistics |
 | POST | `/api/rag/chat` | Chat with RAG assistant |
 | GET | `/api/cve/{cve_id}` | Lookup CVE details |
+| GET | `/api/cve/stats/severity` | CVE counts by severity |
 | POST | `/api/rag/index` | Re-index CVE data into ChromaDB |
 
 ## Deliverables
