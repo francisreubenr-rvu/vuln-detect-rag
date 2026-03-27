@@ -1,0 +1,512 @@
+[
+  {
+    "cve_id": "CVE-2021-44228",
+    "cvss_score": 10.0,
+    "severity": "CRITICAL",
+    "description": "Apache Log4j2 versions 2.0-beta9 through 2.14.1 JNDI features used in configuration, log messages, and parameters do not protect against attacker controlled LDAP and other JNDI related endpoints. An attacker who can control log messages or log message parameters can execute arbitrary code loaded from LDAP servers when message lookup substitution is enabled.",
+    "solution": "Upgrade to Log4j 2.17.1 or later. Alternatively, remove the JndiLookup class from the classpath.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2021-44228", "https://logging.apache.org/log4j/2.x/security.html"],
+    "exploit_available": true,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2021-45046",
+    "cvss_score": 9.0,
+    "severity": "CRITICAL",
+    "description": "It was found that the fix to address CVE-2021-44228 in Apache Log4j 2.15.0 was incomplete in certain non-default configurations. This could allows attackers with control over Thread Context Map to craft malicious input data using a JNDI Lookup pattern resulting in a denial of service and potentially remote code execution.",
+    "solution": "Upgrade to Log4j 2.16.0 or later.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2021-45046"],
+    "exploit_available": true,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2021-26855",
+    "cvss_score": 9.8,
+    "severity": "CRITICAL",
+    "description": "Microsoft Exchange Server Remote Code Execution Vulnerability (ProxyLogon). This vulnerability is part of an attack chain that allows unauthenticated attackers to execute arbitrary commands on vulnerable Exchange servers.",
+    "solution": "Apply Microsoft Exchange Server security update from March 2021. Enable Extended Protection and disable legacy authentication.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2021-26855", "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-26855"],
+    "exploit_available": true,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2021-34527",
+    "cvss_score": 8.8,
+    "severity": "HIGH",
+    "description": "Windows Print Spooler Remote Code Execution Vulnerability (PrintNightmare). A remote code execution vulnerability exists when the Windows Print Spooler service improperly performs privileged file operations. An attacker who successfully exploited this vulnerability could run arbitrary code with SYSTEM privileges.",
+    "solution": "Apply Microsoft July 2021 security update. Alternatively, disable the Print Spooler service.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2021-34527"],
+    "exploit_available": true,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2020-1472",
+    "cvss_score": 10.0,
+    "severity": "CRITICAL",
+    "description": "An elevation of privilege vulnerability exists when an attacker establishes a vulnerable Netlogon secure channel connection to a computer, using the Netlogon Remote Protocol (MS-NRPC), aka 'Netlogon Elevation of Privilege Vulnerability' (Zerologon).",
+    "solution": "Apply Microsoft August 2020 security update. Enable enforcement mode for CVE-2020-1472.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2020-1472"],
+    "exploit_available": true,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2022-22965",
+    "cvss_score": 9.8,
+    "severity": "CRITICAL",
+    "description": "A Spring MVC or Spring WebFlux application running on JDK 9+ may be vulnerable to remote code execution (RCE) via data binding. The specific exploit requires the application to run on Tomcat as a WAR deployment. (Spring4Shell)",
+    "solution": "Upgrade to Spring Framework 5.3.18+ or 2.6.6+. Alternatively, upgrade to Tomcat 10.0.20, 9.0.62, or 8.5.78.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2022-22965", "https://spring.io/blog/2022/03/31/spring-framework-rce-early-announcement"],
+    "exploit_available": true,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2022-22963",
+    "cvss_score": 9.8,
+    "severity": "CRITICAL",
+    "description": "In Spring Cloud Function versions 3.1.6, 3.2.2 and older unsupported versions, when using routing functionality it is possible for a user to provide a specially crafted SpEL as a routing-expression that may result in remote code execution and access to local resources.",
+    "solution": "Upgrade to Spring Cloud Function 3.1.7+ or 3.2.3+.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2022-22963"],
+    "exploit_available": true,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2023-23397",
+    "cvss_score": 9.8,
+    "severity": "CRITICAL",
+    "description": "Microsoft Outlook Elevation of Privilege Vulnerability. An attacker sends a calendar invite containing a UNC path to an SMB share controlled by the attacker. When Outlook processes the reminder for this event, it automatically connects to the attacker's SMB share, leaking the victim's Net-NTLMv2 hash.",
+    "solution": "Apply Microsoft March 2023 security update. Block TCP 445/SMB outbound from your network.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2023-23397"],
+    "exploit_available": true,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2023-44487",
+    "cvss_score": 7.5,
+    "severity": "HIGH",
+    "description": "The HTTP/2 protocol allows a denial of service (server resource consumption) because request cancellation can reset many streams quickly, as exploited in the wild in August through October 2023 (Rapid Reset Attack).",
+    "solution": "Update HTTP/2 implementations. Apply rate limiting and stream concurrency limits.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2023-44487", "https://cloud.google.com/blog/products/identity-security/how-it-works-the-novel-http2-rapid-reset-ddos-attack"],
+    "exploit_available": true,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2023-36884",
+    "cvss_score": 8.3,
+    "severity": "HIGH",
+    "description": "Microsoft Office and Windows HTML Remote Code Execution Vulnerability. An attacker could create a specially crafted Microsoft Office document that enables them to perform remote code execution in the context of the victim.",
+    "solution": "Apply Microsoft July 2023 security updates. Block Office macros from running in files from the internet.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2023-36884"],
+    "exploit_available": true,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2023-20198",
+    "cvss_score": 10.0,
+    "severity": "CRITICAL",
+    "description": "A privilege escalation vulnerability in the web UI of Cisco IOS XE that allows an unauthenticated attacker to create an account on the device with full privilege level 15 access.",
+    "solution": "Disable the HTTP server feature on internet-facing systems. Apply Cisco security advisories.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2023-20198"],
+    "exploit_available": true,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2023-22515",
+    "cvss_score": 10.0,
+    "severity": "CRITICAL",
+    "description": "Atlassian Confluence Data Center and Server contain a broken access control vulnerability. An unauthenticated attacker can create a Confluence administrator account to access the instance.",
+    "solution": "Upgrade Confluence Data Center and Server to fixed versions. Block public access to the /setup/* endpoints.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2023-22515"],
+    "exploit_available": true,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2023-4966",
+    "cvss_score": 7.5,
+    "severity": "HIGH",
+    "description": "Sensitive information disclosure in NetScaler ADC and NetScaler Gateway when configured as a Gateway (VPN virtual server, ICA Proxy, CVPN, RDP Proxy) or AAA virtual server (Citrix Bleed).",
+    "solution": "Update NetScaler ADC and Gateway to patched versions. Terminate all active sessions after patching.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2023-4966"],
+    "exploit_available": true,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2023-27997",
+    "cvss_score": 9.8,
+    "severity": "CRITICAL",
+    "description": "A heap-based buffer overflow vulnerability in FortiOS and FortiProxy SSL-VPN may allow a remote attacker to execute arbitrary code or commands via specifically crafted requests.",
+    "solution": "Upgrade FortiOS to patched version. Disable SSL-VPN if not needed.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2023-27997"],
+    "exploit_available": true,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2023-46747",
+    "cvss_score": 9.8,
+    "severity": "CRITICAL",
+    "description": "F5 BIG-IP Configuration Utility Authentication Bypass Vulnerability. An attacker may be able to bypass authentication to the BIG-IP Configuration utility through undisclosed requests.",
+    "solution": "Update F5 BIG-IP to fixed versions. Block Configuration utility access from untrusted networks.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2023-46747"],
+    "exploit_available": true,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2024-1709",
+    "cvss_score": 9.8,
+    "severity": "CRITICAL",
+    "description": "ConnectWise ScreenConnect versions 23.9.7 and prior are affected by an authentication bypass using an alternate path or channel vulnerability. This could allow an attacker direct access to confidential data or critical systems.",
+    "solution": "Update ScreenConnect to version 23.9.8 or later.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2024-1709"],
+    "exploit_available": true,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2024-23897",
+    "cvss_score": 9.8,
+    "severity": "CRITICAL",
+    "description": "Jenkins 2.441 and earlier, LTS 2.426.2 and earlier does not disable a feature of its CLI command parser that replaces an @ character with the contents of a file. This allows attackers to read arbitrary files on the Jenkins controller file system.",
+    "solution": "Upgrade Jenkins to 2.442, LTS 2.426.3 or later. Disable CLI access.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2024-23897"],
+    "exploit_available": true,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2024-3400",
+    "cvss_score": 10.0,
+    "severity": "CRITICAL",
+    "description": "A command injection vulnerability in the GlobalProtect feature of Palo Alto Networks PAN-OS software enables an unauthenticated attacker to execute arbitrary code with root privileges on the firewall.",
+    "solution": "Apply Palo Alto Networks security patches. Disable GlobalProtect if not needed.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2024-3400"],
+    "exploit_available": true,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2022-47966",
+    "cvss_score": 9.8,
+    "severity": "CRITICAL",
+    "description": "Multiple Zoho ManageEngine products are affected by a Remote Code Execution vulnerability due to the usage of an outdated third-party dependency, Apache Santuario.",
+    "solution": "Update affected ManageEngine products to the latest available builds.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2022-47966"],
+    "exploit_available": true,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2023-50164",
+    "cvss_score": 7.5,
+    "severity": "HIGH",
+    "description": "Apache Struts contains an attacker-controlled file upload path traversal vulnerability. An attacker can manipulate file upload params to enable paths traversal and under some circumstances this can lead to uploading a malicious file which can be used to perform remote code execution.",
+    "solution": "Upgrade to Apache Struts 6.3.0.2 or greater.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2023-50164"],
+    "exploit_available": false,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2021-26084",
+    "cvss_score": 9.8,
+    "severity": "CRITICAL",
+    "description": "Atlassian Confluence Server and Data Center allowed an OGNL injection via a crafted URL that could lead to Remote Code Execution.",
+    "solution": "Update Confluence to patched versions (7.4.11, 7.11.6, 7.12.5, or 7.13.0+).",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2021-26084"],
+    "exploit_available": true,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2023-1389",
+    "cvss_score": 7.5,
+    "severity": "HIGH",
+    "description": "TP-Link Archer AX21 (AX1800) contains a command injection vulnerability in the country form of the /cgi-bin/luci;stok=/locale endpoint. An unauthenticated attacker can execute arbitrary OS commands.",
+    "solution": "Apply TP-Link firmware update.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2023-1389"],
+    "exploit_available": true,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2023-20198",
+    "cvss_score": 10.0,
+    "severity": "CRITICAL",
+    "description": "A privilege escalation vulnerability in the web UI of Cisco IOS XE software that could allow an unauthenticated, remote attacker to create an account on an affected device with privilege level 15 access.",
+    "solution": "Disable the HTTP server feature on internet-facing systems. Upgrade to fixed Cisco IOS XE versions.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2023-20198"],
+    "exploit_available": true,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2023-42793",
+    "cvss_score": 9.8,
+    "severity": "CRITICAL",
+    "description": "An authentication bypass vulnerability in JetBrains TeamCity that could allow an unauthenticated attacker with HTTP(S) access to a TeamCity server to perform a remote code execution and administrative actions.",
+    "solution": "Upgrade TeamCity to 2023.05.4 or later. Apply security patch plugin.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2023-42793"],
+    "exploit_available": true,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2023-6345",
+    "cvss_score": 8.8,
+    "severity": "HIGH",
+    "description": "Use after free in Skia in Google Chrome prior to 119.0.6045.199 allowed a remote attacker who had compromised the renderer process to potentially perform a sandbox escape via a crafted HTML page.",
+    "solution": "Update Google Chrome to 119.0.6045.199 or later.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2023-6345"],
+    "exploit_available": true,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2023-32402",
+    "cvss_score": 7.8,
+    "severity": "HIGH",
+    "description": "A logic issue was addressed with improved checks. This issue is fixed in macOS Ventura 13.4. A sandboxed app may be able to observe system-wide network connections.",
+    "solution": "Update macOS to Ventura 13.4 or later.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2023-32402"],
+    "exploit_available": false,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2023-32405",
+    "cvss_score": 7.5,
+    "severity": "HIGH",
+    "description": "A privacy issue was addressed with improved handling of temporary files. This issue is fixed in macOS Ventura 13.4. An app may be able to access user-sensitive data.",
+    "solution": "Update macOS to Ventura 13.4 or later.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2023-32405"],
+    "exploit_available": false,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2022-40684",
+    "cvss_score": 9.8,
+    "severity": "CRITICAL",
+    "description": "An authentication bypass using an alternate path or channel vulnerability in FortiOS and FortiProxy may allow an unauthenticated attacker to perform operations on the administrative interface via specially crafted HTTP or HTTPS requests.",
+    "solution": "Update FortiOS to 7.0.7+ or FortiProxy to 7.0.7+ or 7.2.2+. Restrict management access.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2022-40684"],
+    "exploit_available": true,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2023-20269",
+    "cvss_score": 5.0,
+    "severity": "MEDIUM",
+    "description": "A vulnerability in the remote access VPN feature of Cisco Adaptive Security Appliance (ASA) Software and Cisco Firepower Threat Defense (FTD) Software could allow an unauthenticated, remote attacker to conduct a brute force attack against an existing user or establish a clientless SSL VPN session.",
+    "solution": "Update Cisco ASA/FTD to patched versions. Enforce MFA for VPN.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2023-20269"],
+    "exploit_available": false,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2022-26134",
+    "cvss_score": 9.8,
+    "severity": "CRITICAL",
+    "description": "Atlassian Confluence Server and Data Center contain an OGNL injection vulnerability that allows an unauthenticated attacker to execute arbitrary code on a Confluence Server or Data Center instance.",
+    "solution": "Update Confluence to patched versions immediately.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2022-26134"],
+    "exploit_available": true,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2023-52426",
+    "cvss_score": 3.7,
+    "severity": "LOW",
+    "description": "Inappropriate implementation in CSP in Google Chrome prior to 122.0.6261.57 allowed a remote attacker to bypass content security policy via a crafted HTML page.",
+    "solution": "Update Chrome to 122.0.6261.57 or later.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2023-52426"],
+    "exploit_available": false,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2023-46805",
+    "cvss_score": 8.2,
+    "severity": "HIGH",
+    "description": "An authentication bypass vulnerability in the web component of Ivanti ICS and Ivanti Policy Secure allows an attacker to access restricted resources by bypassing control checks.",
+    "solution": "Apply Ivanti mitigation. Upgrade to patched versions when available.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2023-46805"],
+    "exploit_available": true,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2023-21608",
+    "cvss_score": 7.8,
+    "severity": "HIGH",
+    "description": "Adobe Acrobat Reader use-after-free vulnerability. Successful exploitation could lead to arbitrary code execution in the context of the current user.",
+    "solution": "Update Adobe Acrobat Reader to latest version.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2023-21608"],
+    "exploit_available": true,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2023-21716",
+    "cvss_score": 9.8,
+    "severity": "CRITICAL",
+    "description": "Microsoft Word Remote Code Execution Vulnerability due to heap overflow when parsing RTF files.",
+    "solution": "Apply Microsoft February 2023 security update. Avoid opening untrusted RTF files.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2023-21716"],
+    "exploit_available": true,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2022-41040",
+    "cvss_score": 8.8,
+    "severity": "HIGH",
+    "description": "Microsoft Exchange Server Server-Side Request Forgery Vulnerability (ProxyNotShell). An authenticated attacker can trigger this vulnerability to execute arbitrary PowerShell code in the context of SYSTEM.",
+    "solution": "Apply Microsoft Exchange security updates. Implement URL rewrite mitigation rules.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2022-41040"],
+    "exploit_available": true,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2022-42475",
+    "cvss_score": 9.8,
+    "severity": "CRITICAL",
+    "description": "A heap-based buffer overflow vulnerability in FortiOS SSL-VPN may allow a remote attacker to execute arbitrary code or commands via specifically crafted requests.",
+    "solution": "Upgrade FortiOS immediately. Disable SSL-VPN as a workaround.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2022-42475"],
+    "exploit_available": true,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2023-7024",
+    "cvss_score": 8.8,
+    "severity": "HIGH",
+    "description": "Heap buffer overflow in WebRTC in Google Chrome prior to 120.0.6099.224 allowed a remote attacker to potentially exploit heap corruption via a crafted HTML page.",
+    "solution": "Update Chrome to 120.0.6099.224 or later.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2023-7024"],
+    "exploit_available": true,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2023-29357",
+    "cvss_score": 9.8,
+    "severity": "CRITICAL",
+    "description": "Microsoft SharePoint Server Privilege Escalation Vulnerability. An unauthenticated attacker can use a spoofed JWT token to gain administrator privileges.",
+    "solution": "Apply Microsoft June 2024 security update.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2023-29357"],
+    "exploit_available": true,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2023-25690",
+    "cvss_score": 9.8,
+    "severity": "CRITICAL",
+    "description": "Some mod_proxy configurations on Apache HTTP Server versions 2.4.0 through 2.4.55 allow an HTTP Request Smuggling attack.",
+    "solution": "Upgrade to Apache HTTP Server 2.4.56 or later.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2023-25690"],
+    "exploit_available": false,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2023-0669",
+    "cvss_score": 8.8,
+    "severity": "HIGH",
+    "description": "Fortra GoAnywhere MFT suffers from a pre-authentication command injection vulnerability in the License Response Servlet due to deserializing an arbitrary attacker-controlled object.",
+    "solution": "Apply Fortra security patch. Upgrade to 7.1.2 or later.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2023-0669"],
+    "exploit_available": true,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2023-40044",
+    "cvss_score": 9.8,
+    "severity": "CRITICAL",
+    "description": "Progress Software WS_FTP Server prior to 8.7.4 and 8.8.2 is affected by a .NET deserialization vulnerability in the Ad Hoc Transfer module that could lead to remote code execution.",
+    "solution": "Upgrade WS_FTP Server to 8.7.4 or 8.8.2 or later.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2023-40044"],
+    "exploit_available": true,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2023-46818",
+    "cvss_score": 6.5,
+    "severity": "MEDIUM",
+    "description": "Ivanti Policy Secure and Ivanti Secure Access Client contain an untrusted search path vulnerability. A local authenticated attacker could exploit this vulnerability to elevate privileges.",
+    "solution": "Apply Ivanti security updates.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2023-46818"],
+    "exploit_available": false,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2022-41352",
+    "cvss_score": 9.8,
+    "severity": "CRITICAL",
+    "description": "Zimbra Collaboration Suite (ZCS) before 8.8.15 Patch 33 and 9.0.0 Patch 26 allows remote unauthenticated attackers to upload arbitrary files via the cpio package format.",
+    "solution": "Upgrade Zimbra to patched versions.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2022-41352"],
+    "exploit_available": true,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2023-2868",
+    "cvss_score": 9.8,
+    "severity": "CRITICAL",
+    "description": "A remote command injection vulnerability in the Barracuda Email Security Gateway appliance allows an attacker to gain unauthorized access.",
+    "solution": "Barracuda recommends immediately replacing affected ESG appliances.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2023-2868"],
+    "exploit_available": true,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2023-24880",
+    "cvss_score": 4.4,
+    "severity": "MEDIUM",
+    "description": "Windows SmartScreen Security Feature Bypass Vulnerability. An attacker could craft a file that evades Mark of the Web (MOTW) defenses.",
+    "solution": "Apply Microsoft March 2023 security update.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2023-24880"],
+    "exploit_available": true,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2023-38831",
+    "cvss_score": 7.8,
+    "severity": "HIGH",
+    "description": "RARLAB WinRAR before 6.23 allows attackers to execute arbitrary code when a user attempts to view a benign file within a ZIP archive.",
+    "solution": "Update WinRAR to version 6.23 or later.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2023-38831"],
+    "exploit_available": true,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2023-29336",
+    "cvss_score": 7.8,
+    "severity": "HIGH",
+    "description": "Win32k Elevation of Privilege Vulnerability in Microsoft Windows. A local attacker could gain SYSTEM privileges.",
+    "solution": "Apply Microsoft May 2023 security update.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2023-29336"],
+    "exploit_available": true,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2022-47986",
+    "cvss_score": 8.1,
+    "severity": "HIGH",
+    "description": "IBM Aspera Faspex could allow a remote attacker to execute arbitrary code on the system, caused by a YAML deserialization flaw.",
+    "solution": "Apply IBM security patch. Upgrade Faspex to 5.0.7 or later.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2022-47986"],
+    "exploit_available": true,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2023-0198",
+    "cvss_score": 4.3,
+    "severity": "MEDIUM",
+    "description": "An issue was discovered in the Linux kernel before 6.2. A use-after-free vulnerability exists in the Bluetooth L2CAP subsystem.",
+    "solution": "Update Linux kernel to 6.2 or later.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2023-0198"],
+    "exploit_available": false,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2023-25588",
+    "cvss_score": 5.5,
+    "severity": "MEDIUM",
+    "description": "Samba Active Directory Domain Controller has a flaw where the DC's private key is readable by world. This could allow an attacker to impersonate the domain controller.",
+    "solution": "Upgrade Samba to patched versions. Regenerate domain controller keys.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2023-25588"],
+    "exploit_available": false,
+    "source": "NVD"
+  },
+  {
+    "cve_id": "CVE-2023-3079",
+    "cvss_score": 8.8,
+    "severity": "HIGH",
+    "description": "Type confusion in V8 in Google Chrome prior to 114.0.5735.110 allowed a remote attacker to potentially exploit heap corruption via a crafted HTML page.",
+    "solution": "Update Chrome to 114.0.5735.110 or later.",
+    "references": ["https://nvd.nist.gov/vuln/detail/CVE-2023-3079"],
+    "exploit_available": true,
+    "source": "NVD"
+  }
+]

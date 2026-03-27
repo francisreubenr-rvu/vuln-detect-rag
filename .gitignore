@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+*.egg
+venv/
+env/
+.venv/
+
+# Environment
+.env
+*.env
+!.env.example
+
+# Database
+*.db
+*.sqlite3
+
+# ChromaDB persistence
+data/chroma/
+
+# Logs
+*.log
+
+# Node
+node_modules/
+frontend/dist/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
