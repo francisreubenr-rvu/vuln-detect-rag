@@ -36,14 +36,14 @@ export default function ScanForm({ onStartScan, loading, onAddFavorite }) {
             value={target}
             onChange={(e) => setTarget(e.target.value)}
             placeholder="e.g., example.com or 192.168.1.1"
-            className="flex-1 bg-dark-800 border border-dark-600 rounded-lg px-4 py-3 text-white placeholder-dark-500 focus:outline-none focus:border-blue-500"
+            className="flex-1 min-w-0 bg-dark-800 border border-dark-600 rounded-lg px-4 py-3 text-white placeholder-dark-500 focus:outline-none focus:border-blue-500"
             disabled={loading}
           />
           {target.trim() && onAddFavorite && (
             <button
               type="button"
               onClick={() => onAddFavorite(target.trim())}
-              className="px-3 bg-dark-800 border border-dark-600 rounded-lg text-dark-400 hover:text-yellow-400 transition-colors"
+              className="px-3 bg-dark-800 border border-dark-600 rounded-lg text-dark-400 hover:text-yellow-400 transition-colors flex-shrink-0"
               title="Save to favorites"
             >
               <Star className="w-4 h-4" />
@@ -56,11 +56,11 @@ export default function ScanForm({ onStartScan, loading, onAddFavorite }) {
         <label className="block text-sm font-medium text-dark-300 mb-2">
           Select Scanners
         </label>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
           {scanners.map((s) => (
             <label
               key={s.id}
-              className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-colors ${
+              className={`flex items-center gap-3 p-2.5 sm:p-3 rounded-lg border cursor-pointer transition-colors ${
                 selected.includes(s.id)
                   ? 'bg-blue-500/10 border-blue-500/50 text-white'
                   : 'bg-dark-800 border-dark-600 text-dark-400 hover:border-dark-500'
@@ -73,7 +73,7 @@ export default function ScanForm({ onStartScan, loading, onAddFavorite }) {
                 className="sr-only"
               />
               <div
-                className={`w-4 h-4 rounded border-2 flex items-center justify-center ${
+                className={`w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 ${
                   selected.includes(s.id)
                     ? 'bg-blue-500 border-blue-500'
                     : 'border-dark-500'
@@ -92,9 +92,9 @@ export default function ScanForm({ onStartScan, loading, onAddFavorite }) {
                   </svg>
                 )}
               </div>
-              <div>
+              <div className="min-w-0">
                 <div className="text-sm font-medium">{s.label}</div>
-                <div className="text-xs text-dark-500">{s.desc}</div>
+                <div className="text-[11px] text-dark-500 truncate">{s.desc}</div>
               </div>
             </label>
           ))}

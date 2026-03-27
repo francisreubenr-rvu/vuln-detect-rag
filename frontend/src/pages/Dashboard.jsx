@@ -7,7 +7,7 @@ import {
 import {
   Shield, AlertTriangle, TrendingUp, Activity, ChevronRight
 } from 'lucide-react'
-import { getStats, getHealth } from '../api/client'
+import { getStats, getHealth, startScan } from '../api/client'
 
 const SEVERITY_COLORS = {
   CRITICAL: '#ef4444',
@@ -73,7 +73,6 @@ export default function Dashboard() {
     setScanError('')
     
     try {
-      const { startScan } = await import('../api/client')
       const { data } = await startScan(targetUrl, ['nmap', 'nuclei'])
       setTargetUrl('')
       navigate(`/scans?scan=${data.id}`)
@@ -116,28 +115,30 @@ export default function Dashboard() {
   ].filter(d => d.value > 0)
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0 relative">
+    <div className="space-y-6 min-w-0">
+      <div className="flex flex-col gap-4">
         <div>
           <h1 className="text-2xl font-bold text-white">Dashboard</h1>
           <p className="text-dark-400 text-sm mt-1">Vulnerability scanning overview</p>
         </div>
         
-        <form onSubmit={handleStartScan} className="flex items-center relative gap-2 bg-dark-900 border border-dark-700 p-2 rounded-xl focus-within:border-blue-500 transition-colors shadow-lg">
-          <Shield className="w-5 h-5 text-dark-400 ml-2" />
-          <input
-            type="text"
-            value={targetUrl}
-            onChange={(e) => setTargetUrl(e.target.value)}
-            placeholder="Enter target URL or IP (e.g., example.com)"
-            className="bg-transparent border-none outline-none text-white text-sm px-2 w-full md:w-64 placeholder-dark-500"
-            disabled={isScanning}
-            required
-          />
+        <form onSubmit={handleStartScan} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 bg-dark-900 border border-dark-700 p-3 rounded-xl focus-within:border-blue-500 transition-colors shadow-lg">
+          <div className="flex items-center gap-2 flex-1 min-w-0">
+            <Shield className="w-5 h-5 text-dark-400 flex-shrink-0" />
+            <input
+              type="text"
+              value={targetUrl}
+              onChange={(e) => setTargetUrl(e.target.value)}
+              placeholder="Enter target URL or IP (e.g., example.com)"
+              className="bg-transparent border-none outline-none text-white text-sm w-full placeholder-dark-500"
+              disabled={isScanning}
+              required
+            />
+          </div>
           <button
             type="submit"
             disabled={isScanning || !targetUrl.trim()}
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-500 disabled:bg-dark-700 disabled:text-dark-400 rounded-lg text-sm font-medium text-white transition-colors flex items-center gap-2"
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-500 disabled:bg-dark-700 disabled:text-dark-400 rounded-lg text-sm font-medium text-white transition-colors flex items-center justify-center gap-2 flex-shrink-0"
           >
             {isScanning ? (
               <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -147,9 +148,7 @@ export default function Dashboard() {
           </button>
         </form>
         {scanError && (
-          <div className="absolute -bottom-6 right-0 text-red-400 text-xs">
-            {scanError}
-          </div>
+          <div className="text-red-400 text-xs">{scanError}</div>
         )}
       </div>
 
@@ -303,7 +302,7 @@ export default function Dashboard() {
       </div>
 
       {/* Recent Scans */}
-      <div className="bg-dark-900 border border-dark-700 rounded-lg">
+      <div className="bg-dark-900 border border-dark-700 rounded-lg overflow-hidden">
         <div className="p-5 border-b border-dark-700">
           <h3 className="text-sm font-semibold text-white">Recent Scans</h3>
         </div>
@@ -312,20 +311,20 @@ export default function Dashboard() {
             stats.recent_scans.map((scan) => (
               <div
                 key={scan.id}
-                className="px-5 py-3 flex items-center justify-between hover:bg-dark-800 cursor-pointer transition-colors"
+                className="px-5 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:bg-dark-800 cursor-pointer transition-colors"
                 onClick={() => navigate(`/scans?scan=${scan.id}`)}
               >
-                <div className="flex items-center gap-4">
-                  <div className="text-sm font-medium text-white">{scan.target}</div>
-                  <span className={`px-2 py-0.5 text-xs rounded ${statusColors[scan.status]}`}>
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="text-sm font-medium text-white truncate">{scan.target}</div>
+                  <span className={`px-2 py-0.5 text-xs rounded flex-shrink-0 ${statusColors[scan.status]}`}>
                     {scan.status}
                   </span>
                 </div>
-                <div className="flex items-center gap-4">
-                  <span className="text-xs text-dark-400">
+                <div className="flex items-center gap-3 text-xs flex-shrink-0">
+                  <span className="text-dark-400">
                     {scan.total_vulnerabilities} vulns
                   </span>
-                  <span className="text-xs text-dark-500">
+                  <span className="text-dark-500 hidden sm:inline">
                     {new Date(scan.started_at).toLocaleString()}
                   </span>
                   <ChevronRight className="w-4 h-4 text-dark-500" />
@@ -334,7 +333,7 @@ export default function Dashboard() {
             ))
           ) : (
             <div className="p-8 text-center text-dark-500 text-sm">
-              No scans yet. Start a scan from the Scan Console.
+              No scans yet. Start a scan from the dashboard or Scan Console.
             </div>
           )}
         </div>

@@ -66,37 +66,37 @@ export default function CVEDetail() {
         <ArrowLeft className="w-4 h-4" /> Back
       </button>
 
-      <div className="bg-dark-900 border border-dark-700 rounded-lg p-6">
-        <div className="flex items-start justify-between">
-          <div>
-            <div className="flex items-center gap-3 mb-2">
-              <h1 className="text-2xl font-bold text-white font-mono">{cve.cve_id}</h1>
-              <span className={`px-2 py-1 text-xs font-semibold rounded border ${severityClass}`}>
+      <div className="bg-dark-900 border border-dark-700 rounded-lg p-4 sm:p-6">
+        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+          <div className="min-w-0">
+            <div className="flex flex-wrap items-center gap-2 mb-2">
+              <h1 className="text-xl sm:text-2xl font-bold text-white font-mono truncate">{cve.cve_id}</h1>
+              <span className={`px-2 py-1 text-xs font-semibold rounded border flex-shrink-0 ${severityClass}`}>
                 {cve.severity}
               </span>
               {cve.exploit_available && (
-                <span className="px-2 py-1 text-xs bg-red-600 text-white rounded flex items-center gap-1">
+                <span className="px-2 py-1 text-xs bg-red-600 text-white rounded flex items-center gap-1 flex-shrink-0">
                   <Bug className="w-3 h-3" /> EXPLOIT
                 </span>
               )}
             </div>
             <p className="text-dark-400 text-sm">Source: {cve.source}</p>
           </div>
-          <div className="text-right">
-            <div className="text-4xl font-bold text-white">{cve.cvss_score}</div>
+          <div className="text-left sm:text-right flex-shrink-0">
+            <div className="text-3xl sm:text-4xl font-bold text-white">{cve.cvss_score}</div>
             <div className="text-xs text-dark-500 uppercase">CVSS Score</div>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-dark-900 border border-dark-700 rounded-lg p-5">
           <h3 className="text-sm font-semibold text-white mb-3">Description</h3>
-          <p className="text-sm text-dark-300 leading-relaxed">{cve.description}</p>
+          <p className="text-sm text-dark-300 leading-relaxed break-words">{cve.description}</p>
         </div>
         <div className="bg-dark-900 border border-dark-700 rounded-lg p-5">
           <h3 className="text-sm font-semibold text-white mb-3">Remediation</h3>
-          <p className="text-sm text-green-400 leading-relaxed">{cve.solution || 'No remediation info available'}</p>
+          <p className="text-sm text-green-400 leading-relaxed break-words">{cve.solution || 'No remediation info available'}</p>
         </div>
       </div>
 

@@ -27,24 +27,24 @@ export default function Settings() {
   }, [])
 
   return (
-    <div className="space-y-6 flex flex-col h-full max-h-[calc(100vh-3rem)]">
-      <div className="flex items-center gap-3 border-b border-dark-700/50 pb-4">
-        <div className="p-2 bg-purple-500/20 rounded-lg">
+    <div className="space-y-6 flex flex-col h-full min-h-0 min-w-0">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-3 border-b border-dark-700/50 pb-4">
+        <div className="p-2 bg-purple-500/20 rounded-lg flex-shrink-0 self-start">
           <SettingsIcon className="w-6 h-6 text-purple-400" />
         </div>
-        <div>
+        <div className="min-w-0">
           <h1 className="text-2xl font-bold text-white">Settings</h1>
           <p className="text-sm text-dark-400">Platform configuration and logs</p>
         </div>
       </div>
 
       <div className="flex-1 flex flex-col bg-dark-900 border border-dark-700 rounded-lg overflow-hidden min-h-0">
-        <div className="flex items-center justify-between p-4 border-b border-dark-700 glass">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 border-b border-dark-700 glass gap-3">
           <div className="flex items-center gap-2 text-white font-medium">
-            <FileText className="w-5 h-5 text-dark-300" />
-            Backend Live Logs
+            <FileText className="w-5 h-5 text-dark-300 flex-shrink-0" />
+            <span>Backend Live Logs</span>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 flex-shrink-0">
             <button
               onClick={fetchLogs}
               disabled={loading}
@@ -70,8 +70,8 @@ export default function Settings() {
           </div>
         </div>
         
-        <div className="flex-1 overflow-auto bg-[#0d1117] p-4 text-xs font-mono text-gray-300 leading-relaxed">
-          <pre className="whitespace-pre-wrap breakdown-all">
+        <div className="flex-1 overflow-auto bg-[#0d1117] p-4 text-xs font-mono text-gray-300 leading-relaxed min-h-0">
+          <pre className="whitespace-pre-wrap break-all overflow-hidden">
             {logs}
           </pre>
         </div>

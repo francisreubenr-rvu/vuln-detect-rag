@@ -124,24 +124,24 @@ export default function ScanConsole() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
+    <div className="space-y-6 min-w-0">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div className="min-w-0">
           <h1 className="text-2xl font-bold text-white">Scan Console</h1>
           <p className="text-dark-400 text-sm mt-1">Launch and monitor vulnerability scans</p>
         </div>
         <button
           onClick={loadHistory}
-          className="px-3 py-2 glass hover:bg-dark-800/80 rounded-lg text-sm text-dark-300 hover:text-white flex items-center gap-2 transition-colors"
+          className="px-3 py-2 glass hover:bg-dark-800/80 rounded-lg text-sm text-dark-300 hover:text-white flex items-center gap-2 transition-colors flex-shrink-0"
         >
           <RefreshCw className="w-4 h-4 text-blue-400" />
           Refresh
         </button>
       </div>
 
-      <div className="grid grid-cols-3 gap-6">
+      <div className="flex flex-col lg:grid lg:grid-cols-3 gap-6">
         {/* Scan Form */}
-        <div className="col-span-1">
+        <div className="lg:col-span-1">
           <div className="glass rounded-lg p-5">
             <h3 className="text-sm font-semibold text-white mb-4">New Scan</h3>
             <ScanForm onStartScan={handleStartScan} loading={scanning} onAddFavorite={handleAddFavorite} />
@@ -213,7 +213,7 @@ export default function ScanConsole() {
         </div>
 
         {/* Results */}
-        <div className="col-span-2">
+        <div className="lg:col-span-2">
           {currentScan ? (
             <div className="space-y-4">
               {/* Tabs */}

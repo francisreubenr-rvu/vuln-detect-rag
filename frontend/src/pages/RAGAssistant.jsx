@@ -81,17 +81,17 @@ export default function RAGAssistant() {
   }
 
   return (
-    <div className="h-full flex flex-col">
-      <div className="flex items-center justify-between mb-4">
-        <div>
+    <div className="h-full flex flex-col min-w-0">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+        <div className="min-w-0">
           <h1 className="text-2xl font-bold text-white">RAG Assistant</h1>
           <p className="text-dark-400 text-sm mt-1">
-            AI-powered vulnerability intelligence — ask about CVEs, remediation, and exploits
+            AI-powered vulnerability intelligence
           </p>
         </div>
         <button
           onClick={clearChat}
-          className="px-3 py-2 bg-dark-800 border border-dark-600 rounded-lg text-sm text-dark-300 hover:text-white flex items-center gap-2"
+          className="px-3 py-2 bg-dark-800 border border-dark-600 rounded-lg text-sm text-dark-300 hover:text-white flex items-center gap-2 flex-shrink-0"
         >
           <RefreshCw className="w-4 h-4" />
           New Chat
@@ -101,7 +101,7 @@ export default function RAGAssistant() {
       <div className="flex gap-4 flex-1 min-h-0">
         {/* Session History Sidebar */}
         {sessions.length > 0 && (
-          <div className="w-56 bg-dark-900 border border-dark-700 rounded-lg flex flex-col">
+          <div className="hidden lg:flex w-56 flex-shrink-0 bg-dark-900 border border-dark-700 rounded-lg flex-col">
             <div className="p-3 border-b border-dark-700">
               <h3 className="text-xs font-semibold text-dark-400 uppercase">Sessions</h3>
             </div>

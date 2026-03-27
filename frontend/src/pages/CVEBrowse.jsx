@@ -48,21 +48,21 @@ export default function CVEBrowse() {
         <p className="text-dark-400 text-sm mt-1">Browse and search known vulnerabilities</p>
       </div>
 
-      <div className="flex gap-3">
-        <form onSubmit={handleSearch} className="flex-1 flex gap-2">
+      <div className="flex flex-col gap-3">
+        <form onSubmit={handleSearch} className="flex gap-2">
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search CVE descriptions..."
-            className="flex-1 bg-dark-900 border border-dark-700 rounded-lg px-4 py-2.5 text-sm text-white placeholder-dark-500 focus:outline-none focus:border-blue-500"
+            className="flex-1 min-w-0 bg-dark-900 border border-dark-700 rounded-lg px-4 py-2.5 text-sm text-white placeholder-dark-500 focus:outline-none focus:border-blue-500"
           />
-          <button type="submit" className="px-4 py-2.5 bg-blue-600 hover:bg-blue-500 rounded-lg text-white">
+          <button type="submit" className="px-4 py-2.5 bg-blue-600 hover:bg-blue-500 rounded-lg text-white flex-shrink-0">
             <Search className="w-4 h-4" />
           </button>
         </form>
 
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           {SEVERITIES.map((s) => (
             <button
               key={s || 'all'}
@@ -74,16 +74,16 @@ export default function CVEBrowse() {
               {s || 'ALL'}
             </button>
           ))}
-        </div>
 
-        <button
-          onClick={() => setExploitOnly(!exploitOnly)}
-          className={`px-3 py-2 rounded-lg text-xs font-medium flex items-center gap-1.5 transition-colors ${
-            exploitOnly ? 'bg-red-600 text-white' : 'bg-dark-900 border border-dark-700 text-dark-400 hover:text-white'
-          }`}
-        >
-          <Bug className="w-3 h-3" /> Exploits
-        </button>
+          <button
+            onClick={() => setExploitOnly(!exploitOnly)}
+            className={`px-3 py-2 rounded-lg text-xs font-medium flex items-center gap-1.5 transition-colors ${
+              exploitOnly ? 'bg-red-600 text-white' : 'bg-dark-900 border border-dark-700 text-dark-400 hover:text-white'
+            }`}
+          >
+            <Bug className="w-3 h-3" /> Exploits
+          </button>
+        </div>
       </div>
 
       <div className="bg-dark-900 border border-dark-700 rounded-lg divide-y divide-dark-700">

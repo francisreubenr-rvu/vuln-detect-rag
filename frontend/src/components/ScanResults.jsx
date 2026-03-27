@@ -44,10 +44,10 @@ export default function ScanResults({ scan, vulnerabilities }) {
 
   if (scan.status === 'failed') {
     return (
-      <div className="flex flex-col items-center justify-center py-12 text-red-400">
+      <div className="flex flex-col items-center justify-center py-12 text-red-400 px-4">
         <AlertTriangle className="w-8 h-8 mb-4" />
         <p className="text-lg font-medium">Scan Failed</p>
-        <p className="text-sm mt-1 text-dark-400">{scan.error_message}</p>
+        <p className="text-sm mt-1 text-dark-400 text-center max-w-lg break-words overflow-hidden">{scan.error_message}</p>
       </div>
     )
   }
@@ -73,38 +73,38 @@ export default function ScanResults({ scan, vulnerabilities }) {
   return (
     <div className="space-y-6">
       {/* Summary Stats */}
-      <div className="grid grid-cols-5 gap-4">
-        <div className="bg-dark-900 border border-dark-700 rounded-lg p-4">
-          <div className="text-xs text-dark-400 uppercase font-semibold">Total</div>
-          <div className="text-2xl font-bold text-white mt-1">{scan.total_vulnerabilities}</div>
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+        <div className="bg-dark-900 border border-dark-700 rounded-lg p-3 sm:p-4">
+          <div className="text-[10px] sm:text-xs text-dark-400 uppercase font-semibold">Total</div>
+          <div className="text-xl sm:text-2xl font-bold text-white mt-1">{scan.total_vulnerabilities}</div>
         </div>
-        <div className="bg-dark-900 border border-red-500/20 rounded-lg p-4">
-          <div className="text-xs text-red-400 uppercase font-semibold">Critical</div>
-          <div className="text-2xl font-bold text-red-400 mt-1">{scan.critical_count}</div>
+        <div className="bg-dark-900 border border-red-500/20 rounded-lg p-3 sm:p-4">
+          <div className="text-[10px] sm:text-xs text-red-400 uppercase font-semibold">Critical</div>
+          <div className="text-xl sm:text-2xl font-bold text-red-400 mt-1">{scan.critical_count}</div>
         </div>
-        <div className="bg-dark-900 border border-orange-500/20 rounded-lg p-4">
-          <div className="text-xs text-orange-400 uppercase font-semibold">High</div>
-          <div className="text-2xl font-bold text-orange-400 mt-1">{scan.high_count}</div>
+        <div className="bg-dark-900 border border-orange-500/20 rounded-lg p-3 sm:p-4">
+          <div className="text-[10px] sm:text-xs text-orange-400 uppercase font-semibold">High</div>
+          <div className="text-xl sm:text-2xl font-bold text-orange-400 mt-1">{scan.high_count}</div>
         </div>
-        <div className="bg-dark-900 border border-yellow-500/20 rounded-lg p-4">
-          <div className="text-xs text-yellow-400 uppercase font-semibold">Medium</div>
-          <div className="text-2xl font-bold text-yellow-400 mt-1">{scan.medium_count}</div>
+        <div className="bg-dark-900 border border-yellow-500/20 rounded-lg p-3 sm:p-4">
+          <div className="text-[10px] sm:text-xs text-yellow-400 uppercase font-semibold">Medium</div>
+          <div className="text-xl sm:text-2xl font-bold text-yellow-400 mt-1">{scan.medium_count}</div>
         </div>
-        <div className="bg-dark-900 border border-dark-700 rounded-lg p-4">
-          <div className="text-xs text-dark-400 uppercase font-semibold">Avg CVSS</div>
-          <div className="text-2xl font-bold text-white mt-1">{scan.avg_cvss}</div>
+        <div className="bg-dark-900 border border-dark-700 rounded-lg p-3 sm:p-4 col-span-2 sm:col-span-1">
+          <div className="text-[10px] sm:text-xs text-dark-400 uppercase font-semibold">Avg CVSS</div>
+          <div className="text-xl sm:text-2xl font-bold text-white mt-1">{scan.avg_cvss}</div>
         </div>
       </div>
 
       {/* Toolbar */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Filter className="w-4 h-4 text-dark-400" />
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div className="flex flex-wrap items-center gap-2">
+          <Filter className="w-4 h-4 text-dark-400 flex-shrink-0" />
           {SEVERITY_OPTIONS.map((s) => (
             <button
               key={s}
               onClick={() => setSeverityFilter(s)}
-              className={`px-3 py-1.5 rounded text-xs font-medium transition-colors ${
+              className={`px-2.5 py-1.5 rounded text-[11px] sm:text-xs font-medium transition-colors ${
                 severityFilter === s
                   ? 'bg-blue-600 text-white'
                   : 'bg-dark-800 text-dark-400 hover:text-white'
@@ -114,7 +114,7 @@ export default function ScanResults({ scan, vulnerabilities }) {
             </button>
           ))}
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-shrink-0">
           <button
             onClick={() => handleExport('json')}
             className="px-3 py-1.5 bg-dark-800 border border-dark-600 rounded text-xs text-dark-300 hover:text-white flex items-center gap-1.5"
